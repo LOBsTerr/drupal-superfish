@@ -1,5 +1,4 @@
-About this directory
---------------------
+### About this directory
 
 This directory contains several ready-made Superfish styles.
 

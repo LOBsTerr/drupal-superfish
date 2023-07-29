@@ -1,3 +1,4 @@
+```
 /*
  * Sample SCSS for adding Superfish CSS to themes.
  *
@@ -265,3 +266,4 @@ $superfish-1-background-color-level-fourth: #c0c0c0;
     }
   }
 }
+```

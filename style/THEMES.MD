@@ -1,3 +1,4 @@
+```
 /*
  * Sample CSS to add Superfish CSS to themes.
  *
@@ -168,3 +169,4 @@
 #YOUR-BLOCK-ID .sf-style-none li.sf-multicolumn-wrapper li {
   background: transparent;
 }
+```
