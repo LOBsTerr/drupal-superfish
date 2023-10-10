@@ -44,7 +44,7 @@
     return this.each(function() {
       var s = this.serial = sf.o.length;
       var o = $.extend({},sf.defaults,op);
-      o.$path = $('li.'+o.pathClass,this).slice(0,o.pathLevels),
+      o.$path = $('li.'+o.pathClass,this).slice(0,o.pathLevels);
       var p = o.$path;
       for (var l = 0; l < p.length; l++){
         p.eq(l).addClass([o.hoverClass,c.bcClass].join(' ')).filter('li:has(ul)').removeClass(o.pathClass);
