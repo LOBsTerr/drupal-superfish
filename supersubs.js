@@ -23,9 +23,9 @@
     // Although this is unnecessary due to the way the module uses these plugins.
     for (var a = 0; a < this.length; a++) {
       // cache selections
-      var $$ = $(this).eq(a),
+      var $$ = $(this).eq(a);
       // support metadata
-      o = $.meta ? $.extend({}, opts, $$.data()) : opts;
+      var o = $.meta ? $.extend({}, opts, $$.data()) : opts;
       // Jump one level if it's a "NavBar"
       if ($$.hasClass('sf-navbar')) {
         $$ = $$.children('li').children('ul');
@@ -36,16 +36,15 @@
         // get the font size of menu.
         // .css('fontSize') returns various results cross-browser, so measure an em dash instead
         var fontsize = $('<li id="menu-fontsize">&#8212;</li>'),
-        size = fontsize.attr('style','padding:0;position:absolute;top:-99999em;width:auto;')
+        var size = fontsize.attr('style','padding:0;position:absolute;top:-99999em;width:auto;')
         .appendTo($$)[0].clientWidth; //clientWidth is faster than width()
         // remove em dash
         fontsize.remove();
 
         // loop through each ul in menu
         for (var b = 0; b < $ULs.length; b++) {
-          var
           // cache this ul
-          $ul = $ULs.eq(b);
+          var $ul = $ULs.eq(b);
           // If a multi-column sub-menu, and only if correctly configured.
           if (o.multicolumn && $ul.hasClass('sf-multicolumn') && $ul.find('.sf-multicolumn-column').length > 0){
             // Look through each column.
@@ -73,11 +72,10 @@
       }
     }
     function resize($ul){
-      var
       // get all (li) children of this ul
-      $LIs = $ul.children(),
+      var $LIs = $ul.children();
       // get all anchor grand-children
-      $As = $LIs.children('a');
+      var $As = $LIs.children('a');
       // force content to one line and save current float property
       $LIs.css('white-space','nowrap');
       // remove width restrictions and floats so elements remain vertically stacked
