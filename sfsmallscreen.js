@@ -137,6 +137,10 @@
           });
           // Doing the same and making sure all the sub-menus are off-screen (hidden).
           accordion.children('ul').removeAttr('style').not('.sf-hidden').addClass('sf-hidden');
+          accordion.find('ul').each(function(){
+            $(this).removeAttr('style').not('.sf-hidden').addClass('sf-hidden');
+          });
+
           // Creating the accordion toggle switch.
           var toggle = '<div class="sf-accordion-toggle ' + styleClass + '"><a href="#" id="' + toggleID + '"><span>' + options.title + '</span></a></div>';
 
