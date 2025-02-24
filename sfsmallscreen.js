@@ -35,15 +35,14 @@
 
     // We need to clean up the menu from anything unnecessary.
     function refine(menu){
-      var
-      refined = menu.clone(),
+      var refined = menu.clone();
       // Things that should not be in the small-screen menus.
-      rm = refined.find('span.sf-sub-indicator'),
+      var rm = refined.find('span.sf-sub-indicator');
       // This is a helper class for those who need to add extra markup that shouldn't exist
       // in the small-screen versions.
-      rh = refined.find('.sf-smallscreen-remove'),
+      var rh = refined.find('.sf-smallscreen-remove');
       // Mega-menus has to be removed too.
-      mm = refined.find('ul.sf-multicolumn');
+      var mm = refined.find('ul.sf-multicolumn');
       for (var a = 0; a < rh.length; a++){
         rh.eq(a).replaceWith(rh.eq(a).html());
       }
@@ -73,9 +72,8 @@
 
     // Creating <option> elements out of the menu.
     function toSelect(menu, level){
-      var
-      items = '',
-      childLI = $(menu).children('li');
+      var items = '';
+      var childLI = $(menu).children('li');
       for (var a = 0; a < childLI.length; a++){
         var list = childLI.eq(a), parent = list.children('a, span');
         for (var b = 0; b < parent.length; b++){
@@ -109,24 +107,22 @@
 
     // Create the new version, hide the original.
     function convert(menu){
-      var menuID = menu.attr('id'),
+      var menuID = menu.attr('id');
       // Creating a refined version of the menu.
-      refinedMenu = refine(menu);
+      var refinedMenu = refine(menu);
       // Currently the plugin provides two reactions to small screens.
       // Converting the menu to a <select> element, and converting to an accordion version of the menu.
       if (options.type == 'accordion'){
-        var
-        toggleID = menuID + '-toggle',
-        accordionID = menuID + '-accordion';
+        var toggleID = menuID + '-toggle';
+        var accordionID = menuID + '-accordion';
         // Making sure the accordion does not exist.
         if ($('#' + accordionID).length == 0){
-          var
           // Getting the style class.
-          styleClass = menu.attr('class').split(' ').filter(function(item){
+          var styleClass = menu.attr('class').split(' ').filter(function(item){
             return item.indexOf('sf-style-') > -1 ? item : '';
-          }),
+          });
           // Creating the accordion.
-          accordion = $(refinedMenu).attr('id', accordionID);
+          var accordion = $(refinedMenu).attr('id', accordionID);
           // Removing unnecessary classes.
           accordion.removeClass('sf-horizontal sf-vertical sf-navbar sf-shadow sf-js-enabled');
           // Adding necessary classes.
@@ -155,11 +151,10 @@
           // Inserting the according and hiding the original menu.
           menu.before(toggle).before(accordion).hide();
 
-          var
-          accordionElement = $('#' + accordionID),
+          var accordionElement = $('#' + accordionID);
           // Deciding what should be used as accordion buttons.
-          buttonElement = (options.accordionButton < 2) ? 'a.menuparent,span.nolink.menuparent' : 'a.sf-accordion-button',
-          button = accordionElement.find(buttonElement);
+          var buttonElement = (options.accordionButton < 2) ? 'a.menuparent,span.nolink.menuparent' : 'a.sf-accordion-button';
+          var button = accordionElement.find(buttonElement);
 
           // Attaching a click event to the toggle switch.
           $('#' + toggleID).on('click', function(e){
@@ -244,14 +239,14 @@
         // Class names modification.
         menuClone = menu.clone(), classes = (options.menuClasses) ? ((options.excludeClass_menu && menuClone.hasClass(options.excludeClass_menu)) ? menuClone.removeClass(options.excludeClass_menu).attr('class') : menuClone.attr('class')) : '',
         classes = (options.includeClass_menu && !menuClone.hasClass(options.includeClass_menu)) ? ((options.menuClasses) ? menuClone.addClass(options.includeClass_menu).attr('class') : options.includeClass_menu) : classes,
-        classes = (classes) ? ' class="' + classes + '"' : '';
+        classes = classes ? ' class="' + classes + '"' : '';
 
         // Making sure the <select> element does not exist already.
         if ($('#' + menuID + '-select').length == 0){
           // Creating the <option> elements.
-          var newMenu = toSelect(refinedMenu, 1),
+          var newMenu = toSelect(refinedMenu, 1);
           // Creating the <select> element and assigning an ID and class name.
-          selectList = $('<select ' + classes + ' id="' + menuID + '-select"/>')
+          var selectList = $('<select ' + classes + ' id="' + menuID + '-select"/>')
           // Attaching the title and the items to the <select> element.
           .html('<option>' + options.title + '</option>' + newMenu)
           // Attaching an event then.
@@ -273,8 +268,7 @@
 
     // Turn everything back to normal.
     function turnBack(menu){
-      var
-      id = '#' + menu.attr('id');
+      var id = '#' + menu.attr('id');
       // Removing the small screen version.
       $(id + '-' + options.type).remove();
       // Removing the accordion toggle switch as well.
@@ -288,9 +282,8 @@
     // Return original object to support chaining.
     // Although this is unnecessary because of the way the module uses these plugins.
     for (var s = 0; s < this.length; s++){
-      var
-      menu = $(this).eq(s),
-      mode = options.mode;
+      var menu = $(this).eq(s);
+      var mode = options.mode;
       // The rest is crystal clear, isn't it? :)
       if (menu.children('li').length == 0){
         // Skip empty menu which will not be visible and don't want to suddenly make it visible.
