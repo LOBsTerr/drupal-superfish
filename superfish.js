@@ -12,77 +12,89 @@
  */
 
 (function($){
-  $.fn.superfish = function(options){
-    var sf = $.fn.superfish,
-      c = sf.c,
-      $arrow = $(['<span class="',c.arrowClass,'"> &#187;</span>'].join('')),
-      over = function(){
-        var $$ = $(this), menu = getMenu($$);
-        clearTimeout(menu.sfTimer);
-        $$.showSuperfishUl().siblings().hideSuperfishUl();
-      },
-      out = function(){
-        var $$ = $(this), menu = getMenu($$), o = sf.op;
-        clearTimeout(menu.sfTimer);
-        menu.sfTimer = setTimeout(function(){
-          if ($$.children('.sf-clicked').length == 0){
-            o.retainPath = ($.inArray($$[0],o.$path)>-1);
-            $$.hideSuperfishUl();
-            if (o.$path.length && $$.parents(['li.',o.hoverClass].join('')).length < 1){
-              over.call(o.$path);
-            }
+  $.fn.superfish = function(superfish_options){
+    var cssClasses = sf.cssClasses;
+    var $arrow = $(['<span class="', cssClasses.arrowClass, '"> &#187;</span>'].join(''));
+
+    var over = function(){
+      var $$ = $(this);
+      var menu = getMenu($$);
+      clearTimeout(menu.sfTimer);
+      $$.showSuperfishUl().siblings().hideSuperfishUl();
+    };
+
+    var out = function(){
+      var $$ = $(this);
+      var menu = getMenu($$);
+      var options = sf.options;
+
+      clearTimeout(menu.sfTimer);
+      menu.sfTimer = setTimeout(function(){
+        if ($$.children('.sf-clicked').length == 0){
+          options.retainPath = ($.inArray($$[0], options.$path) > -1);
+          $$.hideSuperfishUl();
+          if (options.$path.length && $$.parents(['li.', options.hoverClass].join('')).length < 1){
+            over.call(options.$path);
           }
-        },o.delay);
-      },
-      getMenu = function($menu){
-        var menu = $menu.parents(['ul.',c.menuClass,':first'].join(''))[0];
-        sf.op = sf.o[menu.serial];
-        return menu;
-      },
-      addArrow = function($a){ $a.addClass(c.anchorClass).append($arrow.clone()); };
+        }
+      },options.delay);
+    };
+
+    var getMenu = function($menu){
+      var menu = $menu.parents(['ul.', cssClasses.menuClass, ':first'].join(''))[0];
+      sf.options = sf.optionsList[menu.serial];
+      return menu;
+    };
+
+    var addArrow = function($a){
+      $a.addClass(cssClasses.anchorClass).append($arrow.clone());
+    };
 
     return this.each(function() {
-      var s = this.serial = sf.o.length;
-      var o= $.extend({},sf.defaults,options);
-      o.$path = $('li.' + o.pathClass,this).slice(0,o.pathLevels);
-      var p = o.$path;
-      for (var l = 0; l < p.length; l++){
-        p.eq(l).addClass([o.hoverClass,c.bcClass].join(' ')).filter('li:has(ul)').removeClass(o.pathClass);
+      var s = this.serial = sf.optionsList.length;
+      var options = $.extend({}, sf.defaults, superfish_options);
+      options.$path = $('li.' + options.pathClass, this).slice(0, options.pathLevels);
+      var path = options.$path;
+      for (var l = 0; l < path.length; l++){
+        path.eq(l).addClass([options.hoverClass, cssClasses.bcClass].join(' ')).filter('li:has(ul)').removeClass(options.pathClass);
       }
-      sf.o[s] = sf.op = o;
+      sf.optionsList[s] = sf.options = options;
 
-      $('li:has(ul)',this)[($.fn.hoverIntent && !o.disableHI) ? 'hoverIntent' : 'hover'](over,out).each(function() {
-        if (o.autoArrows) addArrow( $(this).children('a:first-child, span.nolink:first-child') );
+      $('li:has(ul)',this)[($.fn.hoverIntent && !options.disableHI) ? 'hoverIntent' : 'hover'](over, out).each(function() {
+        if (options.autoArrows) {
+          addArrow( $(this).children('a:first-child, span.nolink:first-child') );
+        }
       })
-      .not('.' + c.bcClass).hideSuperfishUl();
+      .not('.' + cssClasses.bcClass).hideSuperfishUl();
 
       var $a = $('a, span.nolink',this);
       $a.each(function(i){
         var $li = $a.eq(i).parents('li');
         $a.eq(i).focus(function(){over.call($li);}).blur(function(){out.call($li);});
       });
-      o.onInit.call(this);
+      options.onInit.call(this);
 
     }).each(function() {
-      var menuClasses = [c.menuClass];
-      if (sf.op.dropShadows){
-        menuClasses.push(c.shadowClass);
+      var menuClasses = [cssClasses.menuClass];
+      if (sf.options.dropShadows){
+        menuClasses.push(cssClasses.shadowClass);
       }
       $(this).addClass(menuClasses.join(' '));
     });
   };
 
   var sf = $.fn.superfish;
-  sf.o = [];
-  sf.op = {};
+  sf.optionsList = [];
+  sf.options = {};
 
-  sf.c = {
+  sf.cssClasses = {
     bcClass: 'sf-breadcrumb',
     menuClass: 'sf-js-enabled',
     anchorClass: 'sf-with-ul',
     arrowClass: 'sf-sub-indicator',
     shadowClass: 'sf-shadow'
   };
+
   sf.defaults = {
     hoverClass: 'sfHover',
     pathClass: 'overideThisToUse',
@@ -98,23 +110,25 @@
     onShow: function(){},
     onHide: function(){}
   };
+
   $.fn.extend({
     hideSuperfishUl : function(){
-      var o = sf.op;
-      var not = (o.retainPath === true) ? o.$path : '';
-      o.retainPath = false;
-      var $ul = $(['li.',o.hoverClass].join(''),this).add(this).not(not).removeClass(o.hoverClass)
+      var options = sf.options;
+      var not = options.retainPath === true ? options.$path : '';
+      options.retainPath = false;
+      var $ul = $(['li.',options.hoverClass].join(''), this).add(this).not(not).removeClass(options.hoverClass)
           .children('ul').addClass('sf-hidden');
-      o.onHide.call($ul);
+      options.onHide.call($ul);
       return this;
     },
     showSuperfishUl : function(){
-      var o = sf.op,
-        sh = sf.c.shadowClass + '-off',
-        $ul = this.addClass(o.hoverClass).children('ul.sf-hidden').hide().removeClass('sf-hidden');
-      o.onBeforeShow.call($ul);
-      $ul.animate(o.animation, o.speed, function(){ o.onShow.call($ul); });
+      this.removeClass('sf-hidden');
+      var options = sf.options;
+      var $ul = this.addClass(options.hoverClass).children('ul.sf-hidden').hide().removeClass('sf-hidden');
+      options.onBeforeShow.call($ul);
+      $ul.animate(options.animation, options.speed, function(){ options.onShow.call($ul); });
       return this;
     }
   });
+
 })(jQuery);
