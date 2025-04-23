@@ -94,7 +94,7 @@
           // Crystal clear.
           subIndicator = 1 < level ? Array(level).join('-') + ' ' : '';
           // Preparing the <option> element.
-          items += '<option value="' + path + '"' + classes + disable + '>' + subIndicator + $.trim(item.text()) +'</option>',
+          items += '<option value="' + path + '"' + classes + disable + '>' + subIndicator + item.text().trim() +'</option>',
           childUL = list.find('> ul');
           // Using the function for the sub-menu of this item.
           for (var u = 0; u < childUL.length; u++){
