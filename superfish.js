@@ -14,7 +14,7 @@
 (function($){
   $.fn.superfish = function(superfish_options){
     var cssClasses = sf.cssClasses;
-    var $arrow = $(['<span class="', cssClasses.arrowClass, '"> &#187;</span>'].join(''));
+    var $arrow = $(`<span class="${cssClasses.arrowClass}"> &#187;</span>`);
 
     var over = function(){
       var $$ = $(this);
@@ -33,15 +33,15 @@
         if ($$.children('.sf-clicked').length == 0){
           options.retainPath = ($.inArray($$[0], options.$path) > -1);
           $$.hideSuperfishUl();
-          if (options.$path.length && $$.parents(['li.', options.hoverClass].join('')).length < 1){
+          if (options.$path.length && $$.parents(`li.${cssClasses.hoverClass}`).length < 1){
             over.call(options.$path);
           }
         }
-      },options.delay);
+      }, options.delay);
     };
 
     var getMenu = function($menu){
-      var menu = $menu.parents(['ul.', cssClasses.menuClass, ':first'].join(''))[0];
+      var menu = $menu.parents(`ul.${cssClasses.menuClass}:first`)[0];
       sf.options = sf.optionsList[menu.serial];
       return menu;
     };
@@ -53,21 +53,21 @@
     return this.each(function() {
       var s = this.serial = sf.optionsList.length;
       var options = $.extend({}, sf.defaults, superfish_options);
-      options.$path = $('li.' + options.pathClass, this).slice(0, options.pathLevels);
+      options.$path = $(`li.${options.pathClass}`, this).slice(0, options.pathLevels);
       var path = options.$path;
       for (var l = 0; l < path.length; l++){
-        path.eq(l).addClass([options.hoverClass, cssClasses.bcClass].join(' ')).filter('li:has(ul)').removeClass(options.pathClass);
+        path.eq(l).addClass(`${cssClasses.hoverClass} ${cssClasses.bcClass}`).filter('li:has(ul)').removeClass(options.pathClass);
       }
       sf.optionsList[s] = sf.options = options;
 
-      $('li:has(ul)',this)[($.fn.hoverIntent && !options.disableHI) ? 'hoverIntent' : 'hover'](over, out).each(function() {
+      $('li:has(ul)', this)[($.fn.hoverIntent && !options.disableHI) ? 'hoverIntent' : 'hover'](over, out).each(function() {
         if (options.autoArrows) {
           addArrow( $(this).children('a:first-child, span.nolink:first-child') );
         }
       })
       .not('.' + cssClasses.bcClass).hideSuperfishUl();
 
-      var $a = $('a, span.nolink',this);
+      var $a = $('a, span.nolink', this);
       $a.each(function(i){
         var $li = $a.eq(i).parents('li');
         $a.eq(i).focus(function(){over.call($li);}).blur(function(){out.call($li);});
@@ -92,11 +92,12 @@
     menuClass: 'sf-js-enabled',
     anchorClass: 'sf-with-ul',
     arrowClass: 'sf-sub-indicator',
-    shadowClass: 'sf-shadow'
+    shadowClass: 'sf-shadow',
+    hiddenClass: 'sf-hidden',
+    hoverClass: 'sfHover'
   };
 
   sf.defaults = {
-    hoverClass: 'sfHover',
     pathClass: 'overideThisToUse',
     pathLevels: 1,
     delay: 800,
@@ -116,15 +117,15 @@
       var options = sf.options;
       var not = options.retainPath === true ? options.$path : '';
       options.retainPath = false;
-      var $ul = $(['li.',options.hoverClass].join(''), this).add(this).not(not).removeClass(options.hoverClass)
-          .children('ul').addClass('sf-hidden');
+      var $ul = $(`li.${sf.cssClasses.hoverClass}`, this).add(this).not(not).removeClass(sf.cssClasses.hoverClass)
+          .children('ul').addClass(sf.cssClasses.hiddenClass);
       options.onHide.call($ul);
       return this;
     },
     showSuperfishUl : function(){
-      this.removeClass('sf-hidden');
+      this.removeClass(sf.cssClasses.hiddenClass);
       var options = sf.options;
-      var $ul = this.addClass(options.hoverClass).children('ul.sf-hidden').hide().removeClass('sf-hidden');
+      var $ul = this.addClass(sf.cssClasses.hoverClass).children(`ul.${sf.cssClasses.hiddenClass}`).hide().removeClass(sf.cssClasses.hiddenClass);
       options.onBeforeShow.call($ul);
       $ul.animate(options.animation, options.speed, function(){ options.onShow.call($ul); });
       return this;
