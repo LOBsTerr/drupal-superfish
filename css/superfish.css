@@ -101,7 +101,7 @@ ul.sf-menu .sf-sub-indicator {
   width: 1em;
 }
 ul.sf-menu .sf-sub-indicator:after {
-  content: "▼";
+  content: "\25BC";
   left: 0;
   line-height: 1;
   position: absolute;
@@ -109,7 +109,7 @@ ul.sf-menu .sf-sub-indicator:after {
   top: 0;
 }
 ul.sf-menu ul .sf-sub-indicator:after {
-  content: "►";
+  content: "\25BA";
 }
 ul.sf-menu a:focus > .sf-sub-indicator,
 ul.sf-menu a:hover > .sf-sub-indicator,
@@ -259,7 +259,7 @@ ul.sf-menu.sf-vertical li.sfHover > ul {
   top: 0;
 }
 ul.sf-menu.sf-vertical .sf-sub-indicator:after {
-  content: "►";
+  content: "\25BA";
 }
 /**
  * "Navbar" type.
@@ -293,10 +293,10 @@ ul.sf-menu.sf-navbar li li li.sfHover > ul {
   top: 0;
 }
 ul.sf-menu.sf-navbar ul .sf-sub-indicator:after {
-  content: "▼";
+  content: "\25BC";
 }
 ul.sf-menu.sf-navbar ul ul .sf-sub-indicator:after {
-  content: "►";
+  content: "\25BA";
 }
 /**
  * sfSmallscreen.
@@ -322,14 +322,14 @@ ul.sf-menu.sf-accordion li.sf-expanded > ul {
   top: auto !important;
 }
 ul.sf-menu.sf-accordion .sf-sub-indicator:after {
-  content: "▼";
+  content: "\25BC";
 }
 ul.sf-menu.sf-accordion.sf-accordion-with-buttons .sf-accordion-button:after {
-  content: "▼";
+  content: "\25BC";
   margin: 0 0 0 1em;
 }
 ul.sf-menu.sf-accordion.sf-accordion-with-buttons li.sf-expanded > .sf-accordion-button:after {
-  content: "▲";
+  content: "\25B2";
 }
 /**
  * RTL support.
@@ -358,7 +358,7 @@ ul.sf-menu.rtl.sf-navbar.sf-shadow ul ul {
 ul.sf-menu.rtl.sf-horizontal ul .sf-sub-indicator:after,
 ul.sf-menu.rtl.sf-navbar ul ul .sf-sub-indicator:after,
 ul.sf-menu.rtl.sf-vertical .sf-sub-indicator:after {
-  content: "◄";
+  content: "\25C4";
 }
 ul.sf-menu.rtl li.sf-multicolumn-column,
 ul.sf-menu.rtl.sf-navbar li li {
