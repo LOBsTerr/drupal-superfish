@@ -15,34 +15,34 @@
 
 (function($){
   $.fn.supposition = function(){
-    var $w = $(window); /*do this once instead of every onBeforeShow call*/
+    const $w = $(window); /*do this once instead of every onBeforeShow call*/
 
-    var _offset = function(dir) {
-      return window[dir == 'y' ? 'pageYOffset' : 'pageXOffset']
-      || document.documentElement && document.documentElement[dir == 'y' ? 'scrollTop' : 'scrollLeft']
-      || document.body[dir == 'y' ? 'scrollTop' : 'scrollLeft'];
+    const _offset = function(dir) {
+      return window[dir === 'y' ? 'pageYOffset' : 'pageXOffset']
+      || document.documentElement && document.documentElement[dir === 'y' ? 'scrollTop' : 'scrollLeft']
+      || document.body[dir === 'y' ? 'scrollTop' : 'scrollLeft'];
     };
 
-    var onHide = function(){
+    const onHide = function(){
       this.css({bottom:''});
     };
 
-    var onBeforeShow = function(){
+    const onBeforeShow = function(){
       this.each(function(){
-        var $u = $(this);
+        const $u = $(this);
         $u.css('display','block');
-        var $mul = $u.closest('.sf-menu');
-        var level = $u.parents('ul').length;
-        var menuWidth = $u.width();
-        var menuParentWidth = $u.closest('li').outerWidth(true);
-        var menuParentLeft = $u.closest('li').offset().left;
-        var totalRight = $w.width() + _offset('x');
-        var menuRight = $u.offset().left + menuWidth;
-        var exactMenuWidth = menuRight > (menuParentWidth + menuParentLeft) ? menuWidth - (menuRight - (menuParentWidth + menuParentLeft)) : menuWidth;
+        const $mul = $u.closest('.sf-menu');
+        const level = $u.parents('ul').length;
+        const menuWidth = $u.width();
+        const menuParentWidth = $u.closest('li').outerWidth(true);
+        const menuParentLeft = $u.closest('li').offset().left;
+        const totalRight = $w.width() + _offset('x');
+        const menuRight = $u.offset().left + menuWidth;
+        const exactMenuWidth = menuRight > (menuParentWidth + menuParentLeft) ? menuWidth - (menuRight - (menuParentWidth + menuParentLeft)) : menuWidth;
 
         if ($u.parents('.sf-js-enabled').hasClass('rtl')) {
           if (menuParentLeft < exactMenuWidth) {
-            if ($mul.hasClass('sf-horizontal') && level == 1 || $mul.hasClass('sf-navbar') && level == 2){
+            if ($mul.hasClass('sf-horizontal') && level === 1 || $mul.hasClass('sf-navbar') && level === 2){
               $u.css({left: 0, right: 'auto'});
             }
             else {
@@ -53,7 +53,7 @@
         }
         else {
           if (menuRight > totalRight && menuParentLeft > menuWidth) {
-            if ($mul.hasClass('sf-horizontal') && level == 1 || $mul.hasClass('sf-navbar') && level == 2){
+            if ($mul.hasClass('sf-horizontal') && level === 1 || $mul.hasClass('sf-navbar') && level === 2){
               $u.css({right: 0, left: 'auto'});
             }
             else {
@@ -63,13 +63,13 @@
           }
         }
 
-        var windowHeight = $w.height();
-        var offsetTop = $u.offset().top;
-        var menuParentShadow = $mul.hasClass('sf-shadow') && $u.css('padding-bottom').length > 0 ? parseInt($u.css('padding-bottom').slice(0,-2)) : 0;
-        var menuParentHeight = $mul.hasClass('sf-vertical') ? '-' + menuParentShadow : $u.parent().outerHeight(true) - menuParentShadow;
-        var menuHeight = $u.height();
-        var baseline = windowHeight + _offset('y');
-        var expandUp = (offsetTop + menuHeight > baseline) && (offsetTop > menuHeight);
+        const windowHeight = $w.height();
+        const offsetTop = $u.offset().top;
+        const menuParentShadow = $mul.hasClass('sf-shadow') && $u.css('padding-bottom').length > 0 ? parseInt($u.css('padding-bottom').slice(0,-2)) : 0;
+        const menuParentHeight = $mul.hasClass('sf-vertical') ? '-' + menuParentShadow : $u.parent().outerHeight(true) - menuParentShadow;
+        const menuHeight = $u.height();
+        const baseline = windowHeight + _offset('y');
+        const expandUp = (offsetTop + menuHeight > baseline) && (offsetTop > menuHeight);
         if (expandUp) {
           $u.css({bottom:menuParentHeight + 'px',top:'auto'});
         }
@@ -78,11 +78,11 @@
     };
 
     return this.each(function() {
-      var options = $.fn.superfish.optionsList[this.serial]; /* get this menu's options */
+      const options = $.fn.superfish.optionsList[this.serial]; /* get this menu's options */
 
       /* if callbacks already set, store them */
-      var _onBeforeShow = options.onBeforeShow;
-      var _onHide = options.onHide;
+      const _onBeforeShow = options.onBeforeShow;
+      const _onHide = options.onHide;
 
       $.extend($.fn.superfish.optionsList[this.serial],{
         onBeforeShow: function() {
