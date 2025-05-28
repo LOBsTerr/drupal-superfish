@@ -44,7 +44,7 @@
         // remove em dash
         fontsize.remove();
 
-        // loop through each ul in menu
+        // loop through each ul in a menu
         for (let b = 0; b < $ULs.length; b++) {
           // cache this ul
           let $ul = $ULs.eq(b);
