@@ -117,15 +117,18 @@
       const options = sf.options;
       const not = options.retainPath === true ? options.$path : '';
       options.retainPath = false;
-      const $ul = $(`li.${sf.cssClasses.hoverClass}`, this).add(this).not(not).removeClass(sf.cssClasses.hoverClass)
-          .children('ul').addClass(sf.cssClasses.hiddenClass);
+      const $li = $(`li.${sf.cssClasses.hoverClass}`, this).add(this).not(not).removeClass(sf.cssClasses.hoverClass);
+      $li.children('a').attr('aria-expanded', 'false');
+      const $ul = $li.children('ul').addClass(sf.cssClasses.hiddenClass).attr('aria-hidden', 'true');
       options.onHide.call($ul);
       return this;
     },
     showSuperfishUl : function(){
-      this.removeClass(sf.cssClasses.hiddenClass);
+      this.removeClass(sf.cssClasses.hiddenClass).attr('aria-hidden', 'false');
       const options = sf.options;
-      const $ul = this.addClass(sf.cssClasses.hoverClass).children(`ul.${sf.cssClasses.hiddenClass}`).hide().removeClass(sf.cssClasses.hiddenClass);
+      const $li = this.addClass(sf.cssClasses.hoverClass);
+      $li.children('a').attr('aria-expanded', 'true');
+      const $ul = $li.children(`ul.${sf.cssClasses.hiddenClass}`).hide().removeClass(sf.cssClasses.hiddenClass).attr('aria-hidden', 'false');
       options.onBeforeShow.call($ul);
       $ul.animate(options.animation, options.speed, function(){ options.onShow.call($ul); });
       return this;

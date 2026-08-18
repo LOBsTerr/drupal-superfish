@@ -133,15 +133,15 @@
         // Removing unnecessary classes.
         accordion.removeClass('sf-horizontal sf-vertical sf-navbar sf-shadow sf-js-enabled');
         // Adding necessary classes.
-        accordion.addClass('sf-accordion sf-hidden');
+        accordion.addClass('sf-accordion sf-hidden').attr('aria-hidden', 'true');
         // Removing style attributes and any unnecessary class.
         accordion.find('li').each(function(){
           $(this).removeAttr('style').removeClass('sfHover').attr('id', $(this).attr('id') + '-accordion');
         });
         // Doing the same and making sure all the sub-menus are off-screen (hidden).
-        accordion.children('ul').removeAttr('style').not('.sf-hidden').addClass('sf-hidden');
+        accordion.children('ul').removeAttr('style').not('.sf-hidden').addClass('sf-hidden').attr('aria-hidden', 'true');
         accordion.find('ul').each(function(){
-          $(this).removeAttr('style').not('.sf-hidden').addClass('sf-hidden');
+          $(this).removeAttr('style').not('.sf-hidden').addClass('sf-hidden').attr('aria-hidden', 'true');
         });
 
         // Creating the accordion toggle switch.
@@ -179,7 +179,7 @@
               // Basically, we'll add a class that keeps the sub-menu off-screen and still visible,
               // and make it invisible and remove the class one moment before showing or hiding it.
               // This helps screen reader software access all the menu items.
-              .end().hide().addClass('sf-hidden').show();
+              .end().hide().addClass('sf-hidden').attr('aria-hidden', 'true').show();
             // Changing the caption of any existing accordion buttons to 'Expand'.
             if (options.accordionButton === 2){
               $accordionElement.find('a.sf-accordion-button').text(options.expandText);
@@ -187,7 +187,7 @@
           }
           else {
             // But if it's collapsed,
-            $accordionElement.addClass('sf-expanded').hide().removeClass('sf-hidden').show();
+            $accordionElement.addClass('sf-expanded').hide().removeClass('sf-hidden').attr('aria-hidden', 'false').show();
           }
         });
 
@@ -222,7 +222,7 @@
           if (options.accordionButton === 0 || options.accordionButton === 1){
             // We want to hide a menu, when we click on the menu item with an anchor.
             $accordionElement.find('a.is-active:not(.menuparent)').on('click', function(e){
-              $accordionElement.removeClass('sf-expanded').addClass('sf-hidden');
+              $accordionElement.removeClass('sf-expanded').addClass('sf-hidden').attr('aria-hidden', 'true');
             });
           }
 
@@ -230,7 +230,7 @@
           if (options.accordionButton === 2){
             // We want to hide a menu, when we click on the menu item with an anchor.
             $accordionElement.find('a.is-active').on('click', function(e){
-              $accordionElement.removeClass('sf-expanded').addClass('sf-hidden');
+              $accordionElement.removeClass('sf-expanded').addClass('sf-hidden').attr('aria-hidden', 'true');
             });
           }
 
@@ -238,7 +238,7 @@
           if ($parent.hasClass('sf-expanded')){
             $parent.children('ul').slideUp('fast', function(){
               // Doing the accessibility trick after hiding the sub-menu.
-              $(this).closest('li').removeClass('sf-expanded').end().addClass('sf-hidden').show();
+              $(this).closest('li').removeClass('sf-expanded').end().addClass('sf-hidden').attr('aria-hidden', 'true').show();
             });
             // Changing the caption of the inserted Collapse link to 'Expand', if any is inserted.
             if (options.accordionButton === 2 && $parent.children('.sf-accordion-button').length > 0){
@@ -248,14 +248,14 @@
           // Otherwise, expand the sub-menu.
           else {
             // Doing the accessibility trick and then showing the sub-menu.
-            $parent.children('ul').hide().removeClass('sf-hidden').slideDown('fast')
+            $parent.children('ul').hide().removeClass('sf-hidden').attr('aria-hidden', 'false').slideDown('fast')
               // Changing the caption of the inserted Expand link to 'Collapse' if any is inserted.
               .end().addClass('sf-expanded').children('a.sf-accordion-button').text(options.collapseText)
               // Hiding any expanded sub-menu of the same level.
               .end().siblings('li.sf-expanded').children('ul')
               .slideUp('fast', function(){
                 // Doing the accessibility trick after hiding it.
-                $(this).closest('li').removeClass('sf-expanded').end().addClass('sf-hidden').show();
+                $(this).closest('li').removeClass('sf-expanded').end().addClass('sf-hidden').attr('aria-hidden', 'true').show();
               })
               // Assuming Expand\Collapse buttons do exist, resetting captions, in those hidden sub-menus.
               .parent().children('a.sf-accordion-button').text(options.expandText);
